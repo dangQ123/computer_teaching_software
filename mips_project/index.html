@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+    <script src="js/ref/3.4.3.js"></script>
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="flex flex-col justify-center items-center py-5 px-[15%]">
+      <div
+        class="w-full text-center p-5 h-25 flex justify-center items-center relative">
+        <form action="" id="inst-form" onsubmit="run(event)">
+          <div class="flex">
+            <div class="px-4 block">
+              <label
+                for="instruction"
+                class="block mb-2 text-sm font-medium text-gray-900"
+                >Instruction</label
+              >
+              <select
+                id="instruction"
+                class="border border-gray-300 text-gray-900 text-sm rounded-lg w-32 p-2.5 mx-2.5 inst-form-input"
+                name="inst-inp"
+                onchange="setInstruction(event)"
+              >
+                <option value="Add">Add</option>
+                <option value="Sub">Sub</option>
+                <option value="And">And</option>
+                <option value="Or">Or</option>
+                <option value="Jr">Jr</option>
+                <option value="Addi">Addi</option>
+                <option value="Lw">Lw</option>
+                <option value="Sw">Sw</option>
+                <option value="Beq">Beq</option>
+                <option value="J">J</option>
+                <option value="Jal" disabled>Jal</option>
+              </select>
+            </div>
+
+            <div id="reg-inputs" class="flex">
+              <div id="reg-inp1">
+                <div class="reg-input reg-input-1 block">
+                  <label
+                    for="reg-input1"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                    >Register</label
+                  >
+                  <select
+                    id="reg-input1"
+                    class="border border-gray-300 text-gray-900 text-sm rounded-lg w-32 p-2.5 mx-2.5 reg-select inst-form-input"
+                    name="reg-input-1-1"
+                  ></select>
+                </div>
+                <div class="reg-input reg-input-2 hidden">
+                  <label
+                    for="text-inp1"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                    >Address</label
+                  >
+                  <input
+                    id="text-inp1"
+                    type="text"
+                    class="border border-gray-300 text-gray-900 text-sm rounded-lg w-32 p-2.5 mx-2.5 reg-select inst-form-input"
+                    name="reg-input-1-2"
+                    value="0"
+                    required
+                  />
+                </div>
+              </div>
+              <div id="reg-inp2">
+                <div class="reg-input reg-input-1 block">
+                  <label
+                    for="reg-input2"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                    >Register</label
+                  >
+                  <select
+                    id="reg-input2"
+                    class="border border-gray-300 text-gray-900 text-sm rounded-lg w-32 p-2.5 mx-2.5 reg-select inst-form-input"
+                    name="reg-input-2-1"
+                  ></select>
+                </div>
+                <div class="reg-input reg-input-2 hidden">
+                  <label
+                    for="text-inp2"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                    >Offset</label
+                  >
+                  <input
+                    id="text-inp2"
+                    type="text"
+                    class="border border-gray-300 text-gray-900 text-sm rounded-lg w-32 p-2.5 mx-2.5 reg-select inst-form-input"
+                    value="0"
+                    required
+                    name="reg-input-2-2"
+                  />
+                </div>
+              </div>
+
+              <div id="reg-inp3">
+                <div class="reg-input reg-input-1 block">
+                  <label
+                    for="reg-input3"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                    >Register</label
+                  >
+                  <select
+                    id="reg-input3"
+                    class="border border-gray-300 text-gray-900 text-sm rounded-lg w-32 p-2.5 mx-2.5 reg-select inst-form-input"
+                    name="reg-input-3-1"
+                  ></select>
+                </div>
+
+                <div class="reg-input reg-input-2 hidden">
+                  <label
+                    for="text-input3"
+                    id="input3-label"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                    >Immediate</label
+                  >
+                  <input
+                    id="text-input3"
+                    type="text"
+                    class="border border-gray-300 text-gray-900 text-sm rounded-lg w-32 p-2.5 mx-2.5 reg-select inst-form-input"
+                    value="0"
+                    name="reg-input-3-2"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button
+              class="h-10 w-2/3 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded place-self-end"
+              type="submit"
+            >
+              执行
+            </button>
+          </div>
+        </form>
+        <button class="right-0 absolute" onclick="toggleForm()">
+          <i class="arrow down"></i>
+        </button>
+      </div>
+      <p id="instruction-code" class="text-center"></p>
+
+      <div
+        class="w-full max-h-[500px] relative overflow-hidden transition-all"
+        id="container"
+        isExpanded="true">
+        <form class="text-right" id="reg-form" onsubmit="setOrganizerRegValues(event)">
+          <p class="text-lg text-center h-10">寄存器组</p>
+
+          <div class="grid grid-cols-4 gap-1 max-h-[59px] overflow-auto" id="reg-input-container">
+            <div class="border-2">
+              <p class="text-center">$0</p>
+              <div class="text-center">
+                <input
+                  type="text"
+                  class="text-center border-2 rounded mb-1"
+                  disabled
+                  placeholder="..."
+                  value="0"
+                  size="2"
+                  maxlength="2"
+                  name="reg0"
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-2 rounded"
+            onclick="alert('应用成功')"
+          >
+            应用寄存器值
+          </button>
+        </form>
+
+        <p class="text-lg text-center h-10">内存</p>
+
+        <div
+          class="relative overflow-x-auto w-full flex gap-4 pb-2"
+          id="mem-container"
+        ></div>
+      </div>
+    </div>
+
+
+    <div id="address-book"
+         class="fixed w-[330px] h-96 top-28 left-24 rounded shadow bg-white z-40">
+      <!-- Draggable -->
+      <div class="w-full bg-blue-900 cursor-move text-center text-white py-2 rounded-t" id="draggable-book">
+        微操作
+        <button id="shrink-book" class="absolute right-2 top-2.5" onclick="closeTable()">
+          <img src="media/close.png" alt="" width="20" height="20" />
+        </button>
+      </div>
+      <div id="addresses" class="h-[calc(100%_-_40px)] w-full overflow-auto">
+        <table class="w-full">
+          <tbody id="address-body">
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+
+    <div id="canvas-container" class="flex justify-center py-5"></div>
+    <script src="js/operatetable.js"></script>
+    <script src="js/ref/p5.js"></script>
+    <script src="js/organizer.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/usingcode.js"></script>
+    <script src="js/littleparts/node.js"></script>
+    <script src="js/littleparts/blackNode.js"></script>
+    <script src="js/littleparts/wire.js"></script>
+    <script src="js/component_dir/components.js"></script>
+    <script src="js/component_dir/AndGate.js"></script>
+    <script src="js/component_dir/Alu.js"></script>
+    <script src="js/component_dir/Control.js"></script>
+    <script src="js/component_dir/DataMemory.js"></script>
+    <script src="js/component_dir/Ellipse.js"></script>
+    <script src="js/component_dir/InstructionMemory.js"></script>
+    <script src="js/component_dir/Mux.js"></script>
+    <script src="js/component_dir/Pc.js"></script>
+    <script src="js/component_dir/Register.js"></script>
+    <script src="js/canvas.js"></script>
+
+  </body>
+</html>

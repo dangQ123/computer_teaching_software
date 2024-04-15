@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内存数据可视化</title>
+</head>
+<body>
+<!-- 输入十进制数字 -->
+<label for="decimalInput">输入十进制数字:</label>
+<input type="number" id="decimalInput">
+
+<!-- 选择数据类型 -->
+<label for="dataType1">选择数据类型:</label>
+<select id="dataType1">
+    <option value="0">int</option>
+    <option value="1">float</option>
+</select>
+
+<!-- 确定按钮 -->
+<button id="decimalToBinaryButton">确定</button>
+
+<!-- 输出32位二进制串 -->
+<p id="binaryOutput">二进制输出: </p>
+
+<!-- 输入32位二进制串 -->
+<label for="binaryInput">输入32位二进制串:</label>
+<input type="text" id="binaryInput" maxlength="32">
+
+<!-- 选择数据类型 -->
+<label for="dataType2">选择数据类型:</label>
+<select id="dataType2">
+    <option value="0">int</option>
+    <option value="1">float</option>
+</select>
+
+<!-- 确定按钮 -->
+<button id="binaryToDecimalButton">确定</button>
+
+<!-- 输出十进制数 -->
+<p id="decimalOutput">十进制输出: </p>
+    <script src="memory_data.js"></script>
+</body>
+</html>

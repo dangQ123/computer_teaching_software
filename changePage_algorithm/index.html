@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>替换算法</title>
+    <link rel="stylesheet" href="./asset/bootstrap.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">参数设置</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    缓存大小：<input type="number" id="cache_size" >
+                </p>
+                <p>
+                    替换算法：<select id="algorithm">
+                                <option value="FIFO">FIFO 先进先出</option>
+                                <option value="LRU">LRU 最近最久未使用</option>
+                                <option value="OPT">OPT 最佳</option>
+                                </select>
+                </p>
+                <p>
+                    <input type="button" id="test_data_button" value="随机生成">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="test_data" style="height:333px"></textarea>
+                        <label for="test_data">测试数据</label>
+                    </div>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close_button">关闭</button>
+                <button type="button" class="btn btn-primary" id="confirm_button">确认</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="main_div">
+        <div>
+            <button type="button" class="btn btn-outline-primary" id="setting" data-bs-toggle="modal" data-bs-target="#staticBackdrop">设置参数</button>
+            <button type="button" class="btn btn-secondary" id="execute">执行</button>
+        </div>
+        <div id="display_result">
+
+        </div>
+        <div readonly >
+            <p>
+                当前序列：<span id="array"></span>
+            </p>
+            <p>
+                当前算法：<span id="algorithm_span"></span>
+            </p>
+            <p>
+                缓存大小：<span id="cache_size_span"></span>
+            </p>
+            <p>
+                访问次数：<span id="visitedTime"></span>
+            </p>
+            <div>
+                命中数：<span id="hitTime"></span>                             命中率：<span id="hitPercent"></span>
+            </div>
+            <div>
+                未命中数：<span id="missTime"></span>                          未命中率：<span id="missPercent"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="./asset/bootstrap.bundle.js"></script>
+    <script src="run_change.js"></script>
+</body>
+</html>
