@@ -140,6 +140,14 @@ execute_button.addEventListener('click', function() {
 
 });
 
+function initColorAllSquare(){
+    let display_result = document.getElementById("display_result");
+    let childrenD = display_result.children;
+    for (let i = 0; i < childrenD.length; i++) {
+        childrenD[i].classList.remove('newAdd');
+    }
+}
+
 function FIFO_Run(runTime){
 
     let info = {
@@ -182,6 +190,9 @@ function FIFO_Run(runTime){
             }else{
                 let outItem = cacheQueue.shift();
                 out = cache.indexOf(outItem);
+                initColorAllSquare();
+                let backToChange = document.getElementById('square'+out);
+                backToChange.classList.add('newAdd');
                 cache[out] = arrayNum[i];
                 cacheQueue.push(arrayNum[i]);
                 info.missCount++;
@@ -236,6 +247,9 @@ function LRU_Run(runTime){
             }else{
                 let outItem = cacheQueue.shift();
                 out = cache.indexOf(outItem);
+                initColorAllSquare();
+                let backToChange = document.getElementById('square'+out);
+                backToChange.classList.add('newAdd');
                 cache[out] = arrayNum[i];
                 info.missCount++;
             }
@@ -293,6 +307,12 @@ function OPT_Run(runTime){
             // 否则，找到未来最不可能被访问的页面并替换它
             let farthest = findFarthest(cache, arrayNum.slice(i+1));
             let index = cache.indexOf(farthest);
+
+            let out = index;
+            initColorAllSquare();
+            let backToChange = document.getElementById('square'+out);
+            backToChange.classList.add('newAdd');
+
             cache[index] = arrayNum[i];
             info.missCount++;
         }
