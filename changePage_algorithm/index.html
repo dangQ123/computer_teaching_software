@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="./asset/bootstrap.css">
     <link rel="stylesheet" href="index.css">
 </head>
-<body>
+<body >
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -45,6 +45,7 @@
         <div>
             <button type="button" class="btn btn-outline-primary" id="setting" data-bs-toggle="modal" data-bs-target="#staticBackdrop">设置参数</button>
             <button type="button" class="btn btn-secondary" id="execute">执行</button>
+
         </div>
         <div id="display_result">
 
@@ -70,7 +71,27 @@
             </div>
         </div>
     </div>
+    <button id="showHistory">显示历史记录</button>
+    <input type="button" onclick="showAllData()" value="显示全部">
+    <input type="button" onclick="delAllData()" value="清空全部">
+    <div id="history">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>访问数索引</th>
+                    <th>访问的数</th>
+                    <th>命中次数</th>
+                    <th>命中率</th>
+                    <th>未命中次数</th>
+                    <th>未命中率</th>
+                </tr>
+            </thead>
+            <tbody id="history_tbody">
 
+            </tbody>
+        </table>
+
+    </div>
     <script src="./asset/bootstrap.bundle.js"></script>
     <script src="run_change.js"></script>
 </body>

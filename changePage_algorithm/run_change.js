@@ -134,6 +134,8 @@ execute_button.addEventListener('click', function() {
        missTime.innerHTML = info.missCount;
        hitPercent.innerHTML = ((0.0+info.hitCount)/info.visitCount*100).toFixed(2)+'%';
        missPercent.innerHTML = ((0.0+info.missCount)/info.visitCount*100).toFixed(2)+'%';
+       addData(runTime-2, arrayNum[runTime-2], info.hitCount, ((0.0+info.hitCount)/info.visitCount*100).toFixed(2)+'%', info.missCount, ((0.0+info.missCount)/info.visitCount*100).toFixed(2)+'%');
+
    }
 
 });
@@ -301,3 +303,85 @@ function OPT_Run(runTime){
     }
     return info;
 }
+
+var db = openDatabase('myTel','1.0','test db',1024*100);//数据库名 版本 数据库描述 大小
+db.transaction(function(tx){
+    tx.executeSql('create table if not exists record(numIndex integer, num integer, hitCount TEXT, hitPercent TEXT, missCount TEXT, missPercent TEXT)',[],function(tx,res){
+
+    },function(tx,err){
+        alert(err.message)
+    });
+});
+
+function showAllData(){//显示所有数据
+
+    db.transaction(function (tx){
+
+        tx.executeSql('select * from record',[],function(tx,result){
+            removeAllData();
+            for(var i = 0 ; i<result.rows.length; i++){
+                let row = result.rows.item(i);
+                showData(row);
+
+            }
+        })
+    })
+}
+
+
+function addData(numIndex, num, hitCount, hitPercent, missCount, missPercent){//添加数据
+    db.transaction(function(tx){
+        tx.executeSql('insert into record values(?,?, ?, ?, ?, ?)',[numIndex, num, hitCount, hitPercent, missCount, missPercent],function(tx,rs){
+                // alert('yes');
+            },
+            function (tx,err){
+                alert(err.source +'===='+err.message);
+            })
+    })
+}
+
+function removeAllData() {
+    let history_tbody = document.getElementById('history_tbody');
+    while (history_tbody.firstChild) {
+        history_tbody.removeChild(history_tbody.firstChild);
+    }
+}
+
+function showData(row){//显示数据
+    let history_tbody = document.getElementById('history_tbody');
+    let tr = document.createElement('tr');
+    let numIndex_td = document.createElement('td');
+    numIndex_td.innerHTML = row.numIndex;
+    tr.appendChild(numIndex_td);
+    let num_td = document.createElement('td');
+    num_td.innerHTML = row.num;
+    tr.appendChild(num_td);
+    let hitCount_td = document.createElement('td');
+    hitCount_td.innerHTML = row.hitCount;
+    tr.appendChild(hitCount_td);
+    let hitPercent_td = document.createElement('td');
+    hitPercent_td.innerHTML = row.hitPercent;
+    tr.appendChild(hitPercent_td);
+    let missCount_td = document.createElement('td');
+    missCount_td.innerHTML = row.missCount;
+    tr.appendChild(missCount_td);
+    let missPercent_td = document.createElement('td');
+    missPercent_td.innerHTML = row.missPercent;
+    tr.appendChild(missPercent_td);
+    history_tbody.appendChild(tr);
+}
+function  delAllData(){//删除所有数据
+    db.transaction(function(tx){
+        tx.executeSql('delete from record',[],function(tx,res){
+            // alert('删除成功~');
+        },function (tx,err){
+            alert('删除失败'+err.message);
+        })
+    })
+    removeAllData();
+    showAllData();
+}
+// 当用户点击显示历史记录按钮时，调用此函数
+document.getElementById('showHistory').addEventListener('click', function() {
+    showAllData();
+});
